@@ -288,6 +288,11 @@ static Class progressClass = nil;
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
+    //从setupUI移过来了,如果场景支持滑动返回上一页,防止iOS17滑动返回到一半取消后出现上一页的导航栏
+    if (!self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:YES];
+    }
+    
     if ([GKPhotoBrowserConfigure isMac]) {
         self.contentView.frame = self.view.bounds;
         [self layoutSubviews];
@@ -295,10 +300,6 @@ static Class progressClass = nil;
 }
 
 - (void)setupUI {
-    if (!self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES];
-    }
-    
     if (self.showStyle == GKPhotoBrowserShowStylePush) {
         _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
         [self.view addSubview:_containerView];
